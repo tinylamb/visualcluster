@@ -145,7 +145,7 @@ public class TSneDemo {
     	TSne tsne = new FastTSne();
     	int iters = 1000;
     	System.out.println("Running " + iters + " iterations of TSne on " + filename);
-        double [][] X = MatrixUtils.simpleRead2DMatrix(new File(filename), " ");
+        double [][] X = MatrixUtils.simpleRead2DMatrix(new File(filename), ",");
     	String [] labels = MatrixUtils.simpleReadLines(new File(labelfilename));
     	for (int i = 0; i < labels.length; i++) {
 			labels[i] = labels[i].trim().substring(0, 1);
