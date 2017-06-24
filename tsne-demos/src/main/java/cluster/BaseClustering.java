@@ -64,7 +64,8 @@ public abstract class BaseClustering {
 
     public void poltDataLabels(double[][] data, String[] labels) {
         Plot2DPanel plot = new Plot2DPanel();
-        ColoredScatterPlot setosaPlot = new ColoredScatterPlot("polt", data, labels);
+        ColoredScatterPlot setosaPlot = new ColoredScatterPlot("setosaPlot", data, labels);
+        setosaPlot.setTags(labels);
         plot.plotCanvas.setNotable(true);
         plot.plotCanvas.setNoteCoords(true);
         plot.plotCanvas.addPlot(setosaPlot);

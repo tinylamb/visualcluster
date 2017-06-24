@@ -34,7 +34,8 @@ public class ColoredScatterPlot extends ScatterPlot {
 
         palette = myGradient;
 	}
-	
+
+	@Override
 	public void plot(AbstractDrawer draw, Color col) {
         if (!visible) {
             return;
