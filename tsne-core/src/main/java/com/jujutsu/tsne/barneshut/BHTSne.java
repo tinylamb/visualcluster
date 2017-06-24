@@ -32,15 +32,15 @@
  */
 package com.jujutsu.tsne.barneshut;
 
-import static java.lang.Math.exp;
-import static java.lang.Math.log;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.jujutsu.tsne.PrincipalComponentAnalysis;
 import com.jujutsu.utils.MatrixOps;
+
+import static java.lang.Math.exp;
+import static java.lang.Math.log;
 
 public class BHTSne implements BarnesHutTSne {
 
@@ -81,7 +81,9 @@ public class BHTSne implements BarnesHutTSne {
 		double[][] Xin = parameterObject.getXin();
 		boolean exact = (parameterObject.getTheta() == .0);
 		
-		if(exact) throw new IllegalArgumentException("The Barnes Hut implementation does not support exact inference yet (theta==0.0), if you want exact t-SNE please use one of the standard t-SNE implementations (FastTSne for instance)");
+		if(exact) {
+			throw new IllegalArgumentException("The Barnes Hut implementation does not support exact inference yet (theta==0.0), if you want exact t-SNE please use one of the standard t-SNE implementations (FastTSne for instance)");
+		}
 
 		if(parameterObject.usePca() && D > parameterObject.getInitialDims() && parameterObject.getInitialDims() > 0) {
 			PrincipalComponentAnalysis pca = new PrincipalComponentAnalysis();

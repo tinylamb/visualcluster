@@ -30,4 +30,14 @@ public class KmeansCluster extends BaseClustering {
         }
         return result;
     }
+
+    @Override
+    public String[] callClusteringv3(int clustersize) {
+        int[] label = callClustering(clustersize);
+        String[] slabel = new String[label.length];
+        for (int i = 0; i < label.length; i++) {
+            slabel[i] = String.valueOf(label[i]);
+        }
+        return slabel;
+    }
 }

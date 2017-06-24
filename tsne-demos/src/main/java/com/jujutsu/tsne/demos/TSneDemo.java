@@ -295,10 +295,11 @@ public class TSneDemo {
         //fast_tsne_mnist(2500);
         //pca_no_labels(args[0]);
         //pca_no_labels(args[0]);
-        if(args.length==1)
-        	fast_tsne_no_labels(args[0]);
-        else
-        	fast_tsne(args[0], args[1]);
+        if(args.length==1) {
+            fast_tsne_no_labels(args[0]);
+        } else {
+            fast_tsne(args[0], args[1]);
+        }
     }
 
 }
