@@ -33,8 +33,14 @@ public abstract class BaseClustering {
     static String DATAPATH = "/Users/samo/Documents/githubRepo/"
         + "T-SNE-Java/tsne-demos/src/main/resources/datasets/";
 
-    static String INIT_DATAPATH = DATAPATH + "iris_X.txt";
+    private static String[] datasource = {
+        "mnist250_X.txt",
+        "iris_X.txt",
+        "MNist_2500.txt"
+    };
 
+
+    static String INIT_DATAPATH = DATAPATH + datasource[1];
     public BaseClustering(String name) {
         this.clustername = name;
         if (initdata == null) {
@@ -44,10 +50,10 @@ public abstract class BaseClustering {
                 AttributeDataset data = parser.parse("queryvec",
                     new File(INIT_DATAPATH));
                 initdata = data.toArray(new double[data.size()][]);
-                initdim = initdata[0].length;
-                //TSneDemo.fast_tsne_no_labels(DATAPATH + "iris_X.txt");
                 //printDoubleArr(initdata);
+                initdim = initdata[0].length;
                 mapdata = tsneMap(initdata, 2, initdim, 20.0, 1000);
+                poltData(mapdata);
             } catch (Exception e) {
                 System.err.println(e);
             }
@@ -63,12 +69,20 @@ public abstract class BaseClustering {
     }
 
     public void poltDataLabels(double[][] data, String[] labels) {
-        Plot2DPanel plot = new Plot2DPanel();
         ColoredScatterPlot setosaPlot = new ColoredScatterPlot("setosaPlot", data, labels);
         setosaPlot.setTags(labels);
+        Plot2DPanel plot = new Plot2DPanel();
         plot.plotCanvas.setNotable(true);
         plot.plotCanvas.setNoteCoords(true);
         plot.plotCanvas.addPlot(setosaPlot);
+
+        //Plot2DPanel plot2 = new Plot2DPanel();
+        //
+        //ScatterPlot setosaPlot2 = new ScatterPlot("polt", Color.BLACK, data);
+        //plot2.plotCanvas.setNotable(true);
+        //plot2.plotCanvas.setNoteCoords(true);
+        //plot2.plotCanvas.addPlot(setosaPlot2);
+
         FrameView plotframe = new FrameView(plot);
         plotframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         plotframe.setVisible(true);
@@ -105,10 +119,15 @@ public abstract class BaseClustering {
         }
     }
 
+    public String[] convertArr(int[] label) {
+        String[] slabel = new String[label.length];
+        for (int i = 0; i < label.length; i++) {
+            slabel[i] = String.valueOf(label[i]);
+        }
+        return slabel;
+    }
 
-    public abstract int[] callClustering(int clustersize);
 
-    public abstract double[][] callClusteringv2(int clustersize);
+    public abstract String[] callClustering(int clustersize);
 
-    public abstract String[] callClusteringv3(int clustersize);
 }

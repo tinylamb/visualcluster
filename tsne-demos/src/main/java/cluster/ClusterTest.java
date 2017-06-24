@@ -12,7 +12,7 @@ public class ClusterTest {
 
     public static void main(String[] args) {
         BaseClustering cluster = new KmeansCluster("kmeans");
-        String[] label = cluster.callClusteringv3(2);
+        String[] label = cluster.callClustering(2);
         cluster.poltDataLabels(mapdata, label);
 
     }

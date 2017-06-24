@@ -16,28 +16,9 @@ public class KmeansCluster extends BaseClustering {
 
 
     @Override
-    public int[] callClustering(int clustersize) {
+    public String[] callClustering(int clustersize) {
         KMeans kmeans = new KMeans(initdata, clustersize);
-        return kmeans.getClusterLabel();
-    }
-
-    @Override
-    public double[][] callClusteringv2(int clustersize) {
-        int[] label = callClustering(clustersize);
-        double[][] result = new double[label.length][];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = new double[]{label[i]};
-        }
-        return result;
-    }
-
-    @Override
-    public String[] callClusteringv3(int clustersize) {
-        int[] label = callClustering(clustersize);
-        String[] slabel = new String[label.length];
-        for (int i = 0; i < label.length; i++) {
-            slabel[i] = String.valueOf(label[i]);
-        }
-        return slabel;
+        int[] label = kmeans.getClusterLabel();
+        return convertArr(label);
     }
 }
