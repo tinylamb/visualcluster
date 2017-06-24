@@ -29,6 +29,7 @@ public abstract class BaseClustering {
     private String clustername;
     static double[][] initdata = null;
     static double[][] mapdata = null;
+    static String[] dataid = null;
     static int initdim = 0;
     static String DATAPATH = "/Users/samo/Documents/githubRepo/"
         + "T-SNE-Java/tsne-demos/src/main/resources/datasets/";
@@ -53,7 +54,11 @@ public abstract class BaseClustering {
                 //printDoubleArr(initdata);
                 initdim = initdata[0].length;
                 mapdata = tsneMap(initdata, 2, initdim, 20.0, 1000);
-                poltData(mapdata);
+                dataid = new String[mapdata.length];
+                for (int i = 0; i < mapdata.length; i++) {
+                    dataid[i] = String.valueOf(i);
+                }
+
             } catch (Exception e) {
                 System.err.println(e);
             }

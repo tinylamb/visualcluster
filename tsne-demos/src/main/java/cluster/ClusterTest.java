@@ -1,5 +1,6 @@
 package cluster;
 
+import static cluster.BaseClustering.dataid;
 import static cluster.BaseClustering.mapdata;
 
 /**
@@ -13,6 +14,7 @@ public class ClusterTest {
     public static void main(String[] args) {
         BaseClustering cluster = new KmeansCluster("kmeans");
         String[] label = cluster.callClustering(2);
+        cluster.poltDataLabels(mapdata, dataid);
         cluster.poltDataLabels(mapdata, label);
 
     }
