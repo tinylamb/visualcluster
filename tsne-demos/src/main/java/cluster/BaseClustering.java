@@ -56,7 +56,7 @@ public abstract class BaseClustering {
                 mapdata = tsneMap(initdata, 2, initdim, 20.0, 1000);
                 dataid = new String[mapdata.length];
                 for (int i = 0; i < mapdata.length; i++) {
-                    dataid[i] = String.valueOf(i);
+                    dataid[i] = String.valueOf(i) + "你好";
                 }
 
             } catch (Exception e) {
