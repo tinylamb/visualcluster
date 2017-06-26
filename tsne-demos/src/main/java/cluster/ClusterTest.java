@@ -15,11 +15,11 @@ public class ClusterTest {
     public static void main(String[] args) {
         ClusterFactory factory = ClusterFactory.getInstance();
         //BaseClustering cluster = new KmeansCluster("kmeans");
-        BaseClustering cluster = factory.createCluster("kmeans");
+        BaseClustering cluster = factory.createCluster("mec");
         //BaseClustering cluster = new HierarchicalCluster("hierarchical");
-        String[] label = cluster.callClustering(initdata.length / 5);
+        String[] label = cluster.callClustering(initdata.length);
         cluster.poltDataLabels(mapdata, dataid);
-        cluster.poltDataLabelsVisual(mapdata, label);
+        //cluster.poltDataLabelsVisual(mapdata, label);
         cluster.plotDataClusterWithLable(mapdata, label, dataid);
         //cluster.poltDataLabels(mapdata, label);
 

@@ -21,6 +21,8 @@ public class ClusterFactory {
             return new KmeansCluster(cluster);
         } else if (cluster.equals("hierarchical")) {
             return new HierarchicalCluster(cluster);
+        } else if (cluster.equals("mec")) {
+            return new MecCluster(cluster);
         }
         return null;
     }

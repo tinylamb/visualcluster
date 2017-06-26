@@ -105,7 +105,7 @@ public abstract class BaseClustering {
                 if (field.length != 65) {
                     continue;
                 }
-                if (Math.random() > 0.1) {
+                if (Math.random() > 0.2) {
                     continue;
                 }
                 String query = field[0];
