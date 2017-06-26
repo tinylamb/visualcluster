@@ -12,9 +12,9 @@ import static cluster.BaseClustering.mapdata;
 public class ClusterTest {
 
     public static void main(String[] args) {
-        //BaseClustering cluster = new KmeansCluster("kmeans");
-        BaseClustering cluster = new HierarchicalCluster("hierarchical");
-        String[] label = cluster.callClustering(2);
+        BaseClustering cluster = new KmeansCluster("kmeans");
+        //BaseClustering cluster = new HierarchicalCluster("hierarchical");
+        String[] label = cluster.callClustering(mapdata.length/4);
         cluster.poltDataLabels(mapdata, dataid);
         cluster.poltDataLabels(mapdata, label);
 

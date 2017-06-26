@@ -1,7 +1,12 @@
 package cluster;
 
 import java.awt.*;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -13,7 +18,6 @@ import org.math.plot.FrameView;
 import org.math.plot.Plot2DPanel;
 import org.math.plot.plots.ColoredScatterPlot;
 import org.math.plot.plots.ScatterPlot;
-import smile.data.AttributeDataset;
 import smile.data.parser.DelimitedTextParser;
 
 /**
@@ -45,9 +49,11 @@ public abstract class BaseClustering {
     private static String[] datasource = {
         "mnist250_X.txt",
         "iris_X.txt",
-        "MNist_2500.txt"
+        "MNist_2500.txt",
+        "queryvec.txt"
     };
-    static String INIT_DATAPATH = DATAPATH + datasource[1];
+    static String INIT_DATAPATH = DATAPATH + datasource[3];
+    static String TEST_INIT_DATAPATH = DATAPATH + datasource[3];
 
 
     public BaseClustering(String name) {
@@ -56,20 +62,60 @@ public abstract class BaseClustering {
             DelimitedTextParser parser = new DelimitedTextParser();
             parser.setDelimiter("[,\t ]+");
             try {
-                AttributeDataset data = parser.parse("queryvec",
-                    new File(INIT_DATAPATH));
-                initdata = data.toArray(new double[data.size()][]);
-                //printDoubleArr(initdata);
+                BaseDatainfo base = initDatainfo(new File(INIT_DATAPATH));
+                System.out.println(base);
+                initdata = base.getInitdata();
                 datadim = initdata[0].length;
                 mapdata = tsneMap(initdata, 2, datadim, 20.0, 1000);
-                dataid = new String[mapdata.length];
-                for (int i = 0; i < mapdata.length; i++) {
-                    dataid[i] = String.valueOf(i) + "你好";
-                }
+                dataid = base.getDataid();
+
+                //AttributeDataset data = parser.parse("queryvec",
+                //    new File(INIT_DATAPATH));
+                //initdata = data.toArray(new double[data.size()][]);
+                ////printDoubleArr(initdata);
+                //datadim = initdata[0].length;
+                //mapdata = tsneMap(initdata, 2, datadim, 20.0, 1000);
+                //dataid = new String[mapdata.length];
+                //for (int i = 0; i < mapdata.length; i++) {
+                //    dataid[i] = String.valueOf(i) + "你好";
+                //}
 
             } catch (Exception e) {
                 System.err.println(e);
             }
+        }
+    }
+
+    public BaseDatainfo initDatainfo(File file) {
+        try {
+
+            ArrayList<double[]> data = new ArrayList<double[]>();
+            ArrayList<String> id = new ArrayList<String>();
+            FileInputStream stream = new FileInputStream(file);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                if (line.isEmpty()) {
+                    continue;
+                }
+                String[] field = line.split("[,\t ]+", 0);
+                if (field.length != 65) {
+                    continue;
+                }
+                String query = field[0];
+                double[] vec = new double[64];
+                for (int i = 0; i < vec.length; i++) {
+                    String tmp = new DecimalFormat("0.000000")
+                        .format(Double.valueOf(field[i + 1]));
+                    vec[i] = Double.valueOf(tmp);
+                }
+                id.add(query);
+                data.add(vec);
+            }
+            return new BaseDatainfo(data, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
