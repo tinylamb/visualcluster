@@ -105,6 +105,9 @@ public abstract class BaseClustering {
                 if (field.length != 65) {
                     continue;
                 }
+                if (Math.random() > 0.1) {
+                    continue;
+                }
                 String query = field[0];
                 double[] vec = new double[64];
                 for (int i = 0; i < vec.length; i++) {
@@ -143,6 +146,41 @@ public abstract class BaseClustering {
         plotframe.setVisible(true);
     }
 
+    public void plotDataClusterWithLable(double[][] data, String[] labels, String[] tags) {
+        HashMap<String, QueryVec> cluster = new HashMap<String, QueryVec>();
+        for (int i = 0; i < data.length; i++) {
+            if (!cluster.containsKey(labels[i])) {
+                ArrayList<double[]> v = new ArrayList<double[]>();
+                v.add(data[i]);
+                ArrayList<String> t = new ArrayList<String>();
+                t.add(tags[i]);
+                QueryVec qv = new QueryVec(v, t);
+                cluster.put(labels[i], qv);
+            } else {
+                cluster.get(labels[i]).getVec().add(data[i]);
+                cluster.get(labels[i]).getTag().add(tags[i]);
+            }
+        }
+        Plot2DPanel plot = new Plot2DPanel();
+        ArrayList<ArrayList<String>> taginfo = new ArrayList<ArrayList<String>>();
+        for (Entry<String, QueryVec> tmp : cluster.entrySet()) {
+            String cname = tmp.getKey();
+            double[][] datav = tmp.getValue().getVec().toArray(new double[0][0]);
+            plot.addScatterPlot(cname, datav);
+            taginfo.add(tmp.getValue().getTag());
+        }
+        for (int i = 0; i < taginfo.size(); i++) {
+            String[] tmptags = taginfo.get(i).toArray(new String[0]);
+            ((ScatterPlot) plot.getPlot(i)).setTags(tmptags);
+        }
+        plot.setLegendOrientation(PlotPanel.SOUTH);
+        plot.plotCanvas.setNotable(true);
+        plot.plotCanvas.setNoteCoords(true);
+        FrameView plotframe = new FrameView(plot);
+        plotframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        plotframe.setVisible(true);
+    }
+
     public void poltDataLabelsVisual(double[][] data, String[] labels) {
         //HashMap<String, double[][]> v = new HashMap<String, double[][]>();
         HashMap<String, ArrayList<double[]>> cluster =
@@ -158,8 +196,8 @@ public abstract class BaseClustering {
         }
         //System.out.println("keyset : " + cluster.keySet());
 
-        ColoredScatterPlot setosaPlot = new ColoredScatterPlot("setosaPlot", data, labels);
-        setosaPlot.setTags(labels);
+        //ColoredScatterPlot setosaPlot = new ColoredScatterPlot("setosaPlot", data, labels);
+        //setosaPlot.setTags(labels);
         Plot2DPanel plot = new Plot2DPanel();
         for (Entry<String, ArrayList<double[]>> tmp : cluster.entrySet()) {
             String cname = tmp.getKey();
