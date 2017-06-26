@@ -14,9 +14,10 @@ public class ClusterTest {
     public static void main(String[] args) {
         BaseClustering cluster = new KmeansCluster("kmeans");
         //BaseClustering cluster = new HierarchicalCluster("hierarchical");
-        String[] label = cluster.callClustering(mapdata.length/4);
+        String[] label = cluster.callClustering(5);
         cluster.poltDataLabels(mapdata, dataid);
-        cluster.poltDataLabels(mapdata, label);
+        cluster.poltDataLabelsVisual(mapdata, label);
+        //cluster.poltDataLabels(mapdata, label);
 
     }
 }
