@@ -24,24 +24,32 @@ import smile.data.parser.DelimitedTextParser;
  */
 public abstract class BaseClustering {
 
-    static double perplexity = 20.0;
-    private static int initial_dims = 50;
+    /**
+     * clustername 聚类方法
+     */
     private String clustername;
+
+    /**
+     * 数据初始化
+     */
     static double[][] initdata = null;
     static double[][] mapdata = null;
     static String[] dataid = null;
-    static int initdim = 0;
+    static int datadim = 0;
+
+    /**
+     * 数据路径
+     */
     static String DATAPATH = "/Users/samo/Documents/githubRepo/"
         + "T-SNE-Java/tsne-demos/src/main/resources/datasets/";
-
     private static String[] datasource = {
         "mnist250_X.txt",
         "iris_X.txt",
         "MNist_2500.txt"
     };
-
-
     static String INIT_DATAPATH = DATAPATH + datasource[1];
+
+
     public BaseClustering(String name) {
         this.clustername = name;
         if (initdata == null) {
@@ -52,8 +60,8 @@ public abstract class BaseClustering {
                     new File(INIT_DATAPATH));
                 initdata = data.toArray(new double[data.size()][]);
                 //printDoubleArr(initdata);
-                initdim = initdata[0].length;
-                mapdata = tsneMap(initdata, 2, initdim, 20.0, 1000);
+                datadim = initdata[0].length;
+                mapdata = tsneMap(initdata, 2, datadim, 20.0, 1000);
                 dataid = new String[mapdata.length];
                 for (int i = 0; i < mapdata.length; i++) {
                     dataid[i] = String.valueOf(i) + "你好";
@@ -80,13 +88,6 @@ public abstract class BaseClustering {
         plot.plotCanvas.setNotable(true);
         plot.plotCanvas.setNoteCoords(true);
         plot.plotCanvas.addPlot(setosaPlot);
-
-        //Plot2DPanel plot2 = new Plot2DPanel();
-        //
-        //ScatterPlot setosaPlot2 = new ScatterPlot("polt", Color.BLACK, data);
-        //plot2.plotCanvas.setNotable(true);
-        //plot2.plotCanvas.setNoteCoords(true);
-        //plot2.plotCanvas.addPlot(setosaPlot2);
 
         FrameView plotframe = new FrameView(plot);
         plotframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
