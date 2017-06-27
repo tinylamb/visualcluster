@@ -14,6 +14,7 @@ import javax.swing.*;
 
 import com.jujutsu.tsne.TSne;
 import com.jujutsu.tsne.barneshut.BHTSne;
+import com.jujutsu.tsne.barneshut.ParallelBHTsne;
 import com.jujutsu.tsne.barneshut.TSneConfiguration;
 import com.jujutsu.utils.TSneUtils;
 import org.math.plot.FrameView;
@@ -62,14 +63,15 @@ public abstract class BaseClustering {
     public BaseClustering(String name) {
         this.clustername = name;
         if (initdata == null) {
-            DelimitedTextParser parser = new DelimitedTextParser();
-            parser.setDelimiter("[,\t ]+");
+            //DelimitedTextParser parser = new DelimitedTextParser();
+            //parser.setDelimiter("[,\t ]+");
             try {
                 BaseDatainfo base = initDatainfo(new File(INIT_DATAPATH));
                 System.out.println(base);
                 initdata = base.getInitdata();
                 datadim = initdata[0].length;
-                mapdata = tsneMap(initdata, 2, datadim, 20.0, 1500);
+                mapdata = tsneMapParalle(initdata, 2, datadim, 40.0, 1500);
+                //mapdata = tsneMap(initdata, 2, datadim, 20.0, 1500);
                 dataid = base.getDataid();
 
                 //AttributeDataset data = parser.parse("queryvec",
@@ -128,6 +130,14 @@ public abstract class BaseClustering {
     public double[][] tsneMap(double[][] data, int outputDims,
                               int initDims, double perplexity, int iters) {
         TSne tsne = new BHTSne();
+        TSneConfiguration config = TSneUtils.buildConfig(data, outputDims,
+            initDims, perplexity, iters);
+        return tsne.tsne(config);
+    }
+
+    public double[][] tsneMapParalle(double[][] data, int outputDims,
+                                int initDims, double perplexity, int iters) {
+        TSne tsne = new ParallelBHTsne();
         TSneConfiguration config = TSneUtils.buildConfig(data, outputDims,
             initDims, perplexity, iters);
         return tsne.tsne(config);
