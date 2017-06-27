@@ -22,7 +22,6 @@ import org.math.plot.Plot2DPanel;
 import org.math.plot.PlotPanel;
 import org.math.plot.plots.ColoredScatterPlot;
 import org.math.plot.plots.ScatterPlot;
-import smile.data.parser.DelimitedTextParser;
 
 /**
  * Created by samo on 2017/6/23.
@@ -40,6 +39,7 @@ public abstract class BaseClustering {
     /**
      * 数据初始化
      */
+    static double[][] testdata = null;
     static double[][] initdata = null;
     static double[][] mapdata = null;
     static String[] dataid = null;
@@ -54,10 +54,12 @@ public abstract class BaseClustering {
         "mnist250_X.txt",
         "iris_X.txt",
         "MNist_2500.txt",
-        "queryvec.txt"
+        "queryvec.txt",
+        "iris_X_labels.txt"
     };
     static String INIT_DATAPATH = DATAPATH + datasource[3];
-    static String TEST_INIT_DATAPATH = DATAPATH + datasource[3];
+    static String TEST_INIT_DATAPATH = DATAPATH + datasource[1];
+    static String TEST_INIT_LABELPATH = DATAPATH + datasource[4];
 
 
     public BaseClustering(String name) {
@@ -70,13 +72,13 @@ public abstract class BaseClustering {
                 System.out.println(base);
                 initdata = base.getInitdata();
                 datadim = initdata[0].length;
-                mapdata = tsneMapParalle(initdata, 2, datadim, 40.0, 1500);
+                mapdata = tsneMapParalle(initdata, 2, datadim, 30.0, 2000);
                 //mapdata = tsneMap(initdata, 2, datadim, 20.0, 1500);
                 dataid = base.getDataid();
 
                 //AttributeDataset data = parser.parse("queryvec",
-                //    new File(INIT_DATAPATH));
-                //initdata = data.toArray(new double[data.size()][]);
+                    //new File(TEST_INIT_DATAPATH));
+                //testdata = data.toArray(new double[data.size()][]);
                 ////printDoubleArr(initdata);
                 //datadim = initdata[0].length;
                 //mapdata = tsneMap(initdata, 2, datadim, 20.0, 1000);
@@ -91,9 +93,31 @@ public abstract class BaseClustering {
         }
     }
 
+    public String[] readLabelFile(File file) {
+        try {
+            ArrayList<String> id = new ArrayList<String>();
+            FileInputStream stream = new FileInputStream(file);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                if (line.isEmpty()) {
+                    continue;
+                }
+                String[] field = line.split("[,\t ]+", 0);
+                if (field.length != 1) {
+                    continue;
+                }
+                id.add(field[0]);
+            }
+            return id.toArray(new String[0]);
+
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public BaseDatainfo initDatainfo(File file) {
         try {
-
             ArrayList<double[]> data = new ArrayList<double[]>();
             ArrayList<String> id = new ArrayList<String>();
             FileInputStream stream = new FileInputStream(file);
@@ -156,7 +180,7 @@ public abstract class BaseClustering {
         plotframe.setVisible(true);
     }
 
-    public void plotDataClusterWithLable(double[][] data, String[] labels, String[] tags) {
+    public void plotDataClusterWithLable(final String title, double[][] data, String[] labels, String[] tags) {
         HashMap<String, QueryVec> cluster = new HashMap<String, QueryVec>();
         for (int i = 0; i < data.length; i++) {
             if (!cluster.containsKey(labels[i])) {
@@ -188,6 +212,7 @@ public abstract class BaseClustering {
         plot.plotCanvas.setNoteCoords(true);
         FrameView plotframe = new FrameView(plot);
         plotframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        plotframe.setTitle(title);
         plotframe.setVisible(true);
     }
 
