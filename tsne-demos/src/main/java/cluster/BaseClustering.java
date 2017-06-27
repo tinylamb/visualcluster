@@ -65,27 +65,14 @@ public abstract class BaseClustering {
     public BaseClustering(String name) {
         this.clustername = name;
         if (initdata == null) {
-            //DelimitedTextParser parser = new DelimitedTextParser();
-            //parser.setDelimiter("[,\t ]+");
             try {
                 BaseDatainfo base = initDatainfo(new File(INIT_DATAPATH));
                 System.out.println(base);
                 initdata = base.getInitdata();
                 datadim = initdata[0].length;
                 mapdata = tsneMapParalle(initdata, 2, datadim, 30.0, 2000);
-                //mapdata = tsneMap(initdata, 2, datadim, 20.0, 1500);
                 dataid = base.getDataid();
 
-                //AttributeDataset data = parser.parse("queryvec",
-                    //new File(TEST_INIT_DATAPATH));
-                //testdata = data.toArray(new double[data.size()][]);
-                ////printDoubleArr(initdata);
-                //datadim = initdata[0].length;
-                //mapdata = tsneMap(initdata, 2, datadim, 20.0, 1000);
-                //dataid = new String[mapdata.length];
-                //for (int i = 0; i < mapdata.length; i++) {
-                //    dataid[i] = String.valueOf(i) + "你好";
-                //}
 
             } catch (Exception e) {
                 System.err.println(e);

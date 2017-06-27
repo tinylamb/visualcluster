@@ -31,7 +31,6 @@ public class ClusterTest {
         double[][] mapdata_test = b.tsneMapParalle(initdata_test, 2, datadim_test, 30.0, 2000);
         String[] label_test = b.readLabelFile(new File(TEST_INIT_LABELPATH));
         b.poltDataLabels(mapdata_test, label_test);
-        //b.poltData(mapdata_test);
     }
 
     public static void testCluster() {
