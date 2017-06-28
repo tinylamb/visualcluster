@@ -4,6 +4,7 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -55,7 +56,9 @@ public abstract class BaseClustering {
         "iris_X.txt",
         "MNist_2500.txt",
         "queryvec.txt",
-        "iris_X_labels.txt"
+        "iris_X_labels.txt",
+        "MNist_2500.txt",
+        "mnist2500_labels.txt"
     };
     static String INIT_DATAPATH = DATAPATH + datasource[3];
     static String TEST_INIT_DATAPATH = DATAPATH + datasource[1];
@@ -107,8 +110,10 @@ public abstract class BaseClustering {
         try {
             ArrayList<double[]> data = new ArrayList<double[]>();
             ArrayList<String> id = new ArrayList<String>();
-            FileInputStream stream = new FileInputStream(file);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+            //FileInputStream stream = new FileInputStream(file);
+            FileReader r = new FileReader(file);
+            //BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+            BufferedReader reader = new BufferedReader(r);
             String line = null;
             while ((line = reader.readLine()) != null) {
                 if (line.isEmpty()) {
