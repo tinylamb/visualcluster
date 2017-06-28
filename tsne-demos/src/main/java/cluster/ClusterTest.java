@@ -45,6 +45,11 @@ public class ClusterTest {
         BaseClustering kmeans = factory.createCluster(kmeanscluster);
         String[] kmeans_label = kmeans.callClustering(initdata.length / 4);
         kmeans.plotDataClusterWithLable(kmeanscluster, mapdata, kmeans_label, dataid);
+
+        ClusterType hierarchicalcluster = ClusterType.HIERARCHICAL;
+        BaseClustering hierarchical = factory.newCluster(hierarchicalcluster);
+        String[] hierarchical_label = hierarchical.callClustering(initdata.length / 4);
+        hierarchical.plotDataClusterWithLable(hierarchicalcluster.name(), mapdata, hierarchical_label, dataid);
     }
 
     public static void main(String[] args) throws Exception{

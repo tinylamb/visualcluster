@@ -27,6 +27,18 @@ public class ClusterFactory {
         return null;
     }
 
+    public BaseClustering newCluster(ClusterType type) {
+        switch (type) {
+            case KMEANS:
+                return new KmeansCluster(type.name());
+            case HIERARCHICAL:
+                return new HierarchicalCluster(type.name());
+            case MEC:
+                return new MecCluster(type.name());
+        }
+        return null;
+    }
+
     public void testFactory() {
         System.out.println("testFactory");
     }
