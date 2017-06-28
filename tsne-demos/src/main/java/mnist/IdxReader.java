@@ -12,6 +12,8 @@ import javax.imageio.ImageIO;
  *
  * @author samo
  * @date 2017/06/28
+ *
+ * refer https://stackoverflow.com/questions/17279049/reading-a-idx-file-type-in-java
  */
 public class IdxReader {
     public static void main(String[] args) throws Exception{
